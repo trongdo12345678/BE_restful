@@ -1,6 +1,6 @@
 using BE_restful.Areas.AdminEmployee.Models;
 using BE_restful.Areas.AdminEmployee.Service;
-using BE_restful.Areas.AdminManager.Models;
+using BE_restful.Areas.AdminManager.Models.Dao;
 using BE_restful.Areas.AdminManager.Service;
 using BE_restful.Models;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ builder.Services.AddScoped<ProductInventoryService, ProductInventoryDao>();
 builder.Services.AddScoped<EmployeeService, EmployeeDao>();
 builder.Services.AddScoped<CustomerService, CustomerDao>();
 builder.Services.AddScoped<OrderDetailService, OrderDetailDao>();
-
+builder.Services.AddScoped<StockProductService, StockProductDao>();
 
 
 var app = builder.Build();

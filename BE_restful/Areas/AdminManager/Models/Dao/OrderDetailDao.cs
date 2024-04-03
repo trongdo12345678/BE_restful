@@ -1,7 +1,7 @@
 ﻿using BE_restful.Areas.AdminManager.Service;
 using BE_restful.Models;
 
-namespace BE_restful.Areas.AdminManager.Models;
+namespace BE_restful.Areas.AdminManager.Models.Dao;
 
 public class OrderDetailDao : OrderDetailService
 {
@@ -25,10 +25,10 @@ public class OrderDetailDao : OrderDetailService
                               IsReturned = pi.IsReturned,
                               UnitPrice = pi.UnitPrice,
                               Order = (from p in _context.Orders
-                                      where p.OrderId == pi.OrderId
+                                       where p.OrderId == pi.OrderId
                                        select p).FirstOrDefault(),
                               Product = (from p in _context.Products
-                                       where p.ProductId == pi.ProductId
+                                         where p.ProductId == pi.ProductId
                                          select p).FirstOrDefault()
                           }).ToList();
 
@@ -39,4 +39,5 @@ public class OrderDetailDao : OrderDetailService
             return [];
         }
     }
+
 }

@@ -2,7 +2,7 @@
 using BE_restful.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BE_restful.Areas.AdminManager.Models;
+namespace BE_restful.Areas.AdminManager.Models.Dao;
 
 public class ProductInventoryDao : ProductInventoryService
 {
