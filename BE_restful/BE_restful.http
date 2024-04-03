@@ -1,0 +1,6 @@
+@BE_restful_HostAddress = http://localhost:5204
+
+GET {{BE_restful_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
