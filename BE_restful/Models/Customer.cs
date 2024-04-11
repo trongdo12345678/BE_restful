@@ -21,8 +21,6 @@ public partial class Customer
 
     public string? Password { get; set; }
 
-    public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
-
     public virtual ICollection<Faq> Faqs { get; set; } = new List<Faq>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();

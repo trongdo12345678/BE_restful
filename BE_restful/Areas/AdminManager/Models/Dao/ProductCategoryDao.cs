@@ -6,8 +6,8 @@ namespace BE_restful.Areas.AdminManager.Models.Dao;
 
 public class ProductCategoryDao : ProductCategoryService
 {
-    private readonly ArtsDbContext _context;
-    public ProductCategoryDao(ArtsDbContext context)
+    private readonly ArtsContext _context;
+    public ProductCategoryDao(ArtsContext context)
     {
         _context = context;
     }

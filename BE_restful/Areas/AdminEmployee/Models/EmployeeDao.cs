@@ -6,8 +6,8 @@ namespace BE_restful.Areas.AdminEmployee.Models;
 
 public class EmployeeDao : EmployeeService
 {
-    private readonly ArtsDbContext _context;
-    public EmployeeDao(ArtsDbContext context)
+    private readonly ArtsContext _context;
+    public EmployeeDao(ArtsContext context)
     {
         _context = context;
     }

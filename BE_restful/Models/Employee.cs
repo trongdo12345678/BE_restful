@@ -21,7 +21,7 @@ public partial class Employee
 
     public virtual Employee? Manager { get; set; }
 
-    public virtual ICollection<ProductReturn> ProductReturns { get; set; } = new List<ProductReturn>();
+    public virtual ICollection<ReturnDetail> ReturnDetails { get; set; } = new List<ReturnDetail>();
 
     public virtual Role? Role { get; set; }
 }

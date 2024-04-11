@@ -7,11 +7,13 @@ public partial class ProductInventory
 {
     public int InventoryId { get; set; }
 
-    public int? ProductId { get; set; }
+    public string? ProductId { get; set; }
 
     public int? Quantity { get; set; }
 
     public DateOnly? DayInventory { get; set; }
 
     public virtual Product? Product { get; set; }
+
+    public virtual ICollection<ProductCode> ProductCodes { get; set; } = new List<ProductCode>();
 }

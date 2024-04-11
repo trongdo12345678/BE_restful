@@ -7,7 +7,7 @@ public partial class DeliveryDetail
 {
     public int DeliveryId { get; set; }
 
-    public int? OrderId { get; set; }
+    public string? OrderId { get; set; }
 
     public DateOnly? Date { get; set; }
 

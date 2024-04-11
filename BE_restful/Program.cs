@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ArtsDbContext>(options =>
+builder.Services.AddDbContext<ArtsContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -21,7 +21,7 @@ builder.Services.AddScoped<ProductCategoryService, ProductCategoryDao>();
 builder.Services.AddScoped<ProductInventoryService, ProductInventoryDao>();
 builder.Services.AddScoped<EmployeeService, EmployeeDao>();
 builder.Services.AddScoped<CustomerService, CustomerDao>();
-builder.Services.AddScoped<OrderDetailService, OrderDetailDao>();
+builder.Services.AddScoped<ProductCodeService, ProductCodeDao>();
 builder.Services.AddScoped<StockProductService, StockProductDao>();
 
 

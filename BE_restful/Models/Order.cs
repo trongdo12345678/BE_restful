@@ -5,7 +5,7 @@ namespace BE_restful.Models;
 
 public partial class Order
 {
-    public int OrderId { get; set; }
+    public string OrderId { get; set; } = null!;
 
     public int? CustomerId { get; set; }
 
@@ -17,6 +17,12 @@ public partial class Order
 
     public bool? IsPaid { get; set; }
 
+    public string ProductCode { get; set; } = null!;
+
+    public int? EmployeeId { get; set; }
+
+    public string? Status { get; set; }
+
     public double? TotalPaid { get; set; }
 
     public virtual Customer? Customer { get; set; }
@@ -27,9 +33,9 @@ public partial class Order
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-
     public virtual PaymentMethod? PaymentMethod { get; set; }
 
-    public virtual ICollection<ProductReturn> ProductReturns { get; set; } = new List<ProductReturn>();
+    public virtual ProductCode ProductCodeNavigation { get; set; } = null!;
+
+    public virtual ICollection<ReturnDetail> ReturnDetails { get; set; } = new List<ReturnDetail>();
 }

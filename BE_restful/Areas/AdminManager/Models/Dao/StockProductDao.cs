@@ -5,8 +5,8 @@ namespace BE_restful.Areas.AdminManager.Models.Dao;
 
 public class StockProductDao : StockProductService
 {
-    private readonly ArtsDbContext _context;
-    public StockProductDao(ArtsDbContext context)
+    private readonly ArtsContext _context;
+    public StockProductDao(ArtsContext context)
     {
         _context = context;
     }
@@ -19,7 +19,6 @@ public class StockProductDao : StockProductService
                             {
                                 CategoryId = pi.CategoryId,
                                 ProductName = pi.ProductName,
-                                QuantityAvailable = pi.QuantityAvailable,
                                 Price = pi.Price,
                                 Category = (from p in _context.ProductCategories
                                             where p.CategoryId == pi.CategoryId

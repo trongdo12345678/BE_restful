@@ -7,9 +7,9 @@ public partial class Feedback
 {
     public int FeedbackId { get; set; }
 
-    public int? OrderId { get; set; }
-
     public DateOnly? FeedbackDate { get; set; }
+
+    public string? OrderId { get; set; }
 
     public string? FeedbackMessage { get; set; }
 

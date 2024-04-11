@@ -16,21 +16,21 @@ public class ProductInventoryController : ControllerBase
         _productInventoryService = productInventoryService;
     }
     //[Route("/Admin/api/depmgr/deps")]
-    [HttpPost]
-    public bool AddProInven(ProductInventory ProInven)
+    [HttpPost("AddProductInventory")]
+    public bool AddProductInventory(ProductInventory ProInven)
     {
-
-            // Thêm yếu tố ProductInventory mới vào cơ sở dữ liệu
-            var check = _productInventoryService.AddProInven(ProInven);
-
-            // Lấy dữ liệu ProductInventory sau khi thêm mới để đảm bảo tính nhất quán
-            //var updatedInventory = _productInventoryService.GetPro(); ViewBag lay gia tri product ra
-
-            // Kiểm tra xem thêm mới có thành công không
-            return check;
+        var check = _productInventoryService.InventoryProCode(ProInven);
+        return check;
     }
-    [HttpGet]
-    public IActionResult GetProCate()
+    //[Route("/Admin/api/depmgr/deps")]
+    [HttpGet("GetAllProductInventories")]
+    public IActionResult GetAllProductInventories()
+    {
+        var inventories = _productInventoryService.GetAllProInven();
+        return Ok(inventories); // Trả về danh sách các ProductInventory
+    }
+    [HttpGet("GetProIven")]
+    public IActionResult GetProIven()
     {
         var Inven = _productInventoryService.GetProInven();
 

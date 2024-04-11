@@ -5,8 +5,8 @@ namespace BE_restful.Areas.AdminManager.Models.Dao;
 
 public class CustomerDao : CustomerService
 {
-    private readonly ArtsDbContext _context;
-    public CustomerDao(ArtsDbContext context)
+    private readonly ArtsContext _context;
+    public CustomerDao(ArtsContext context)
     {
         _context = context;
     }

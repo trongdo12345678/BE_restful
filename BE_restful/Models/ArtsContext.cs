@@ -4,18 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BE_restful.Models;
 
-public partial class ArtsDbContext : DbContext
+public partial class ArtsContext : DbContext
 {
-    public ArtsDbContext()
+    public ArtsContext()
     {
     }
 
-    public ArtsDbContext(DbContextOptions<ArtsDbContext> options)
+    public ArtsContext(DbContextOptions<ArtsContext> options)
         : base(options)
     {
     }
-
-    public virtual DbSet<Cart> Carts { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
 
@@ -31,43 +29,26 @@ public partial class ArtsDbContext : DbContext
 
     public virtual DbSet<Order> Orders { get; set; }
 
-    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-
     public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
+    public virtual DbSet<ProductCode> ProductCodes { get; set; }
+
     public virtual DbSet<ProductInventory> ProductInventories { get; set; }
 
-    public virtual DbSet<ProductReturn> ProductReturns { get; set; }
+    public virtual DbSet<ReturnDetail> ReturnDetails { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=TRONGDO\\SQLEXPRESS;Initial Catalog=ArtsDB;Persist Security Info=True;User ID=sa;Password=trongdo123;Encrypt=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=TRONGDO\\SQLEXPRESS;Initial Catalog=Arts;Persist Security Info=True;User ID=sa;Password=trongdo123;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Cart>(entity =>
-        {
-            entity.ToTable("Cart");
-
-            entity.Property(e => e.CartId).HasColumnName("CartID");
-            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-            entity.HasOne(d => d.Customer).WithMany(p => p.Carts)
-                .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_Cart_Customers");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.Carts)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Cart_Products");
-        });
-
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64B866A468BA");
@@ -82,7 +63,9 @@ public partial class ArtsDbContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Password).HasColumnType("text");
+            entity.Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -104,7 +87,10 @@ public partial class ArtsDbContext : DbContext
             entity.Property(e => e.DeliveryStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(16)
+                .IsUnicode(false)
+                .HasColumnName("OrderID");
 
             entity.HasOne(d => d.Order).WithMany(p => p.DeliveryDetails)
                 .HasForeignKey(d => d.OrderId)
@@ -127,12 +113,16 @@ public partial class ArtsDbContext : DbContext
         {
             entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04FF15FA38933");
 
-            entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+            entity.Property(e => e.EmployeeId)
+                .ValueGeneratedNever()
+                .HasColumnName("EmployeeID");
             entity.Property(e => e.EmployeeName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
-            entity.Property(e => e.Password).HasColumnType("text");
+            entity.Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
@@ -169,7 +159,10 @@ public partial class ArtsDbContext : DbContext
 
             entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
             entity.Property(e => e.FeedbackMessage).HasColumnType("text");
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(16)
+                .IsUnicode(false)
+                .HasColumnName("OrderID");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.OrderId)
@@ -181,11 +174,19 @@ public partial class ArtsDbContext : DbContext
             entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BAF3E4C9998");
 
             entity.Property(e => e.OrderId)
-                .ValueGeneratedNever()
+                .HasMaxLength(16)
+                .IsUnicode(false)
                 .HasColumnName("OrderID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.DeliveryTypeId).HasColumnName("DeliveryTypeID");
+            entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
             entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodID");
+            entity.Property(e => e.ProductCode)
+                .HasMaxLength(7)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
@@ -198,24 +199,11 @@ public partial class ArtsDbContext : DbContext
             entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.PaymentMethodId)
                 .HasConstraintName("FK__Orders__PaymentM__4222D4EF");
-        });
 
-        modelBuilder.Entity<OrderDetail>(entity =>
-        {
-            entity.HasKey(e => e.OrderDetailId).HasName("PK__OrderDet__D3B9D30CCF4D682C");
-
-            entity.Property(e => e.OrderDetailId).HasColumnName("OrderDetailID");
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK__OrderDeta__Order__44FF419A");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK__OrderDeta__Produ__45F365D3");
+            entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.ProductCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Orders_ProductCode");
         });
 
         modelBuilder.Entity<PaymentMethod>(entity =>
@@ -232,9 +220,13 @@ public partial class ArtsDbContext : DbContext
         {
             entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6ED9B890D3B");
 
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.ProductId)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.Img).HasColumnType("text");
             entity.Property(e => e.IsDisplay)
                 .HasMaxLength(10)
                 .IsFixedLength();
@@ -258,6 +250,37 @@ public partial class ArtsDbContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<ProductCode>(entity =>
+        {
+            entity.HasKey(e => e.ProductCode1);
+
+            entity.ToTable("ProductCode");
+
+            entity.Property(e => e.ProductCode1)
+                .HasMaxLength(7)
+                .IsUnicode(false)
+                .HasColumnName("ProductCode");
+            entity.Property(e => e.IventoryId).HasColumnName("IventoryID");
+            entity.Property(e => e.ProductId)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .HasColumnName("ProductID");
+            entity.Property(e => e.ProductNum)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Iventory).WithMany(p => p.ProductCodes)
+                .HasForeignKey(d => d.IventoryId)
+                .HasConstraintName("FK_ProductCode_Product_Inventories");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductCodes)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK_ProductCode_Products");
+        });
+
         modelBuilder.Entity<ProductInventory>(entity =>
         {
             entity.HasKey(e => e.InventoryId).HasName("PK_Artwork_Inventory");
@@ -265,33 +288,39 @@ public partial class ArtsDbContext : DbContext
             entity.ToTable("Product_Inventories");
 
             entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductInventories)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK_Artwork_Inventory_Products");
+            entity.Property(e => e.ProductId)
+                .HasMaxLength(7)
+                .IsUnicode(false)
+                .HasColumnName("ProductID");
         });
 
-        modelBuilder.Entity<ProductReturn>(entity =>
+        modelBuilder.Entity<ReturnDetail>(entity =>
         {
-            entity.HasKey(e => e.ReturnId).HasName("PK__ProductR__F445E98880AEAB75");
+            entity.HasKey(e => e.ReturnId);
 
             entity.Property(e => e.ReturnId).HasColumnName("ReturnID");
             entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.ProductId)
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(16)
+                .IsUnicode(false)
+                .HasColumnName("OrderID");
+            entity.Property(e => e.Reason)
                 .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("ProductID");
-            entity.Property(e => e.Reason).HasColumnType("text");
+                .IsFixedLength();
+            entity.Property(e => e.ReturnDate)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
-            entity.HasOne(d => d.Employee).WithMany(p => p.ProductReturns)
+            entity.HasOne(d => d.Employee).WithMany(p => p.ReturnDetails)
                 .HasForeignKey(d => d.EmployeeId)
-                .HasConstraintName("FK_ProductReturns_Employees");
+                .HasConstraintName("FK_ReturnDetails_Employees");
 
-            entity.HasOne(d => d.Order).WithMany(p => p.ProductReturns)
+            entity.HasOne(d => d.Order).WithMany(p => p.ReturnDetails)
                 .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK__ProductRe__Order__5165187F");
+                .HasConstraintName("FK_ReturnDetails_Orders");
         });
 
         modelBuilder.Entity<Role>(entity =>
