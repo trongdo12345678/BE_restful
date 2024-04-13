@@ -17,7 +17,9 @@ public partial class Order
 
     public bool? IsPaid { get; set; }
 
-    public string ProductCode { get; set; } = null!;
+    public string? ProductId { get; set; }
+
+    public string? ProductCode { get; set; }
 
     public int? EmployeeId { get; set; }
 
@@ -35,7 +37,7 @@ public partial class Order
 
     public virtual PaymentMethod? PaymentMethod { get; set; }
 
-    public virtual ProductCode ProductCodeNavigation { get; set; } = null!;
+    public virtual ProductCode? ProductCodeNavigation { get; set; }
 
     public virtual ICollection<ReturnDetail> ReturnDetails { get; set; } = new List<ReturnDetail>();
 }

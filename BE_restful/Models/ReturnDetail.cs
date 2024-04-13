@@ -11,7 +11,7 @@ public partial class ReturnDetail
 
     public string? Status { get; set; }
 
-    public string? ReturnDate { get; set; }
+    public DateOnly? ReturnDate { get; set; }
 
     public string? Reason { get; set; }
 

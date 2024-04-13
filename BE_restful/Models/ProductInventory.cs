@@ -13,7 +13,8 @@ public partial class ProductInventory
 
     public DateOnly? DayInventory { get; set; }
 
+    public virtual ICollection<ProductCode> ProductCodes { get; set; } = new List<ProductCode>();
+
     public virtual Product? Product { get; set; }
 
-    public virtual ICollection<ProductCode> ProductCodes { get; set; } = new List<ProductCode>();
 }

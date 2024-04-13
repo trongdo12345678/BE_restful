@@ -184,6 +184,10 @@ public partial class ArtsContext : DbContext
             entity.Property(e => e.ProductCode)
                 .HasMaxLength(7)
                 .IsUnicode(false);
+            entity.Property(e => e.ProductId)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .HasColumnName("ProductID");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -202,7 +206,6 @@ public partial class ArtsContext : DbContext
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ProductCode)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Orders_ProductCode");
         });
 
@@ -304,12 +307,7 @@ public partial class ArtsContext : DbContext
                 .HasMaxLength(16)
                 .IsUnicode(false)
                 .HasColumnName("OrderID");
-            entity.Property(e => e.Reason)
-                .HasMaxLength(10)
-                .IsFixedLength();
-            entity.Property(e => e.ReturnDate)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.Reason).HasColumnType("text");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false);

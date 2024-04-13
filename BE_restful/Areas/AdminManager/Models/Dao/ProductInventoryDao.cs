@@ -79,7 +79,7 @@ public class ProductInventoryDao : ProductInventoryService
                     ProductId = iven.ProductId,
                     ProductNum = formattedProductNum,
                     IventoryId = iven.InventoryId,
-                    Status = "Hd"
+                    Status = "ex"
                 });
             }
 

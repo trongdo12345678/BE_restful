@@ -23,6 +23,8 @@ builder.Services.AddScoped<EmployeeService, EmployeeDao>();
 builder.Services.AddScoped<CustomerService, CustomerDao>();
 builder.Services.AddScoped<ProductCodeService, ProductCodeDao>();
 builder.Services.AddScoped<StockProductService, StockProductDao>();
+builder.Services.AddScoped<OrderService, OrderDao>();
+builder.Services.AddScoped<ReturnDetailService, ReturnDetailDao>();
 
 
 var app = builder.Build();
