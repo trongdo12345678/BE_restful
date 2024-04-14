@@ -75,7 +75,49 @@ public class ReturnDetailDao : ReturnDetailService
             }
         }
     }
+    //shiper nhận hàng và xác nhận đang vận chuyển
+    public bool ShippedReturn(int returnId)
+    {
+        try
+        {
+            var returnDetail = _context.ReturnDetails.FirstOrDefault(rd => rd.ReturnId == returnId);
+            if (returnDetail == null)
+            {
+                return false;
+            }
 
+            returnDetail.Status = "Shipped";
+
+           
+            return _context.SaveChanges() > 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating return for admin: {ex.Message}");
+            return false;
+        }
+    }
+    public bool AccomplishedReturn(int returnId)
+    {
+        try
+        {
+            var returnDetail = _context.ReturnDetails.FirstOrDefault(rd => rd.ReturnId == returnId);
+            if (returnDetail == null)
+            {
+                return false;
+            }
+
+            returnDetail.Status = "Accomplished Return";
+
+
+            return _context.SaveChanges() > 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating return for admin: {ex.Message}");
+            return false;
+        }
+    }
 
 }
 

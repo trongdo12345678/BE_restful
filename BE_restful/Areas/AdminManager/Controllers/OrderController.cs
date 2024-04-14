@@ -41,10 +41,23 @@ public class OrderController : ControllerBase
         var checl = _orderService.ShippedOrder(orderID, productCode);
         return checl;
     }
+    
     [HttpPost("AccomplishedOrder")]
     public bool AccomplishedOrder(string orderID, string productCode)
     {
         var checl = _orderService.AccomplishedOrder(orderID, productCode);
         return checl;
+    }
+    [HttpPost("AddFeedback")]
+    public bool AddFeedback(string orderId, string feedbackMessage)
+    {
+        var checl = _orderService.AddFeedback(orderId, feedbackMessage);
+        return checl;
+    }
+    [HttpGet("GetFeedback")]
+    public IActionResult GetFeedback()
+    {
+        var check = _orderService.GetFeedback();
+        return Ok(check);
     }
 }

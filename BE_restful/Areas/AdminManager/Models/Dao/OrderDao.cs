@@ -137,20 +137,21 @@ public class OrderDao : OrderService
         }
     }
     // chuyển qua trạng thái đã hoàng thành
-    public bool AccomplishedOrder(string orderID, string productCode)
+    public bool AccomplishedOrder(string orderId, string productCode)
     {
         try
         {
-
-            var order = _context.Orders.SingleOrDefault(o => o.OrderId == orderID);
+            var order = _context.Orders.SingleOrDefault(o => o.OrderId == orderId);
             if (order == null)
             {
                 return false;
             }
-            var checkproductcode = findProductcode(productCode);
+            order.OrderDate = DateOnly.FromDateTime(DateTime.Now);
+            order.Status = "Accomplished";
 
-                order.OrderDate = DateOnly.FromDateTime(DateTime.Now);
-                order.Status = "Accomplished";
+            // Thêm phản hồi cho sản phẩm
+            string feedbackMessage = "Thank you for your purchase!";
+            AddFeedback(orderId, feedbackMessage);
 
             return _context.SaveChanges() > 0;
         }
@@ -160,6 +161,7 @@ public class OrderDao : OrderService
             return false;
         }
     }
+
     //kiểm tra xem product code có hợp lệ hay không
     public bool findProductcode(string productcode)
     {
@@ -189,7 +191,62 @@ public class OrderDao : OrderService
             return false;
         }
     }
+    //freeback cho sản phẩm
+    public bool AddFeedback(string orderId, string feedbackMessage)
+    {
+        try
+        {
+            var order = _context.Orders.SingleOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                return false;
+            }
+            if (order.Status != "Accomplished")
+            {
+                Console.WriteLine("Cannot add feedback for orders that are not accomplished.");
+                return false;
+            }
 
+            var feedback = new Feedback
+            {
+                OrderId = orderId,
+                FeedbackDate = DateOnly.FromDateTime(DateTime.Now),
+                FeedbackMessage = feedbackMessage
+            };
+
+            order.Feedbacks.Add(feedback);
+
+            return _context.SaveChanges() > 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding feedback: {ex.Message}");
+            return false;
+        }
+    }
+    public List<Feedback> GetFeedback()
+    {
+        try
+        {
+            var FreeB = (from p in _context.Feedbacks
+                         select new Feedback
+                           {
+                             FeedbackId = p.FeedbackId,
+                             FeedbackDate = p.FeedbackDate,
+                             OrderId = p.OrderId,
+                             FeedbackMessage = p.FeedbackMessage,
+                             Order = (from pi in _context.Orders
+                                        where pi.ProductId == pi.ProductId
+                                          select pi).FirstOrDefault()
+                           }).ToList();
+
+            return FreeB;
+        }
+        catch (Exception)
+        {
+            return [];
+        }
+    }
 
 
 }

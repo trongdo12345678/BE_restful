@@ -22,11 +22,22 @@ public class ReturnDetailController : ControllerBase
         var check = _returndetailService.ReturnToAdmin(detail);
         return check;
     }
-
     [HttpPost("UpdateReturnForAdmin")]
     public bool UpdateReturnForAdmin(int returnId)
     {
         var check = _returndetailService.UpdateReturnForAdmin(returnId);
+        return check;
+    }
+    [HttpPost("ShippedReturn")]
+    public bool ShippedReturn(int returnId)
+    {
+        var check = _returndetailService.ShippedReturn(returnId);
+        return check;
+    }
+    [HttpPost("AccomplishedReturn")]
+    public bool AccomplishedReturn(int returnId)
+    {
+        var check = _returndetailService.AccomplishedReturn(returnId);
         return check;
     }
 }
