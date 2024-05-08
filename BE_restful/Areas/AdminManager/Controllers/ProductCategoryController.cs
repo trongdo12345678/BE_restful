@@ -3,10 +3,9 @@ using BE_restful.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace BE_restful.Areas.Admin.Controllers;
+namespace BE_restful.Areas.AdminManager.Controllers;
 [ApiController]
-[Route("api/[controller]")]
-[Area("Admin")]
+[Route("/AdminManager/api/[controller]")]
 public class ProductCategoryController : ControllerBase
 {
     private ProductCategoryService _productCategoriesService;
@@ -14,7 +13,7 @@ public class ProductCategoryController : ControllerBase
     {
         _productCategoriesService = productCategoriesService;
     }
-    [HttpGet]
+    [HttpGet("GetProCate")]
     public IActionResult GetProCate()
     {
         var categories = _productCategoriesService.GetProCate();

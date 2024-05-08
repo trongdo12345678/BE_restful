@@ -23,10 +23,10 @@ public class ProductCodeDao : ProductCodeService
                                 ProductNum = p.ProductNum,
                                 IventoryId = p.IventoryId,
                                 Product = (from pi in _context.Products
-                                            where pi.ProductId == pi.ProductId
+                                            where pi.ProductName == pi.ProductName
                                            select pi).FirstOrDefault(),
                                 Iventory = (from pi in _context.ProductInventories
-                                           where pi.InventoryId == pi.InventoryId
+                                           where pi.Quantity == pi.Quantity
                                             select pi).FirstOrDefault()
 
                             }).ToList();

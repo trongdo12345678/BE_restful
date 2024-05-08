@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BE_restful.Areas.AdminManager.Controllers;
-[Route("api/[controller]")]
+[Route("/AdminManager/api/[controller]")]
 [ApiController]
 public class ProductCodeController : ControllerBase
 {
@@ -13,7 +13,7 @@ public class ProductCodeController : ControllerBase
     {
         _productCodeService = productCodeService;
     }
-    [HttpGet]
+    [HttpGet("GetProCode")]
     public IActionResult GetProCode()
     {
         var check = _productCodeService.GetProCode();

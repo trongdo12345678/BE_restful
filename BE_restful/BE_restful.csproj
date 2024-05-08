@@ -25,7 +25,6 @@
     <Folder Include="Areas\AdminEmployee\Views\" />
     <Folder Include="Areas\AdminManager\Data\" />
     <Folder Include="Areas\AdminManager\Views\" />
-    <Folder Include="ServiceDao\" />
     <Folder Include="Service\" />
   </ItemGroup>
 

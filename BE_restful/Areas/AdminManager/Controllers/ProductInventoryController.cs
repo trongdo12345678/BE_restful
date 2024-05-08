@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace BE_restful.Areas.Admin.Controllers;
-[Route("api/[controller]")]
-[Area("Admin")]
+namespace BE_restful.Areas.AdminManager.Controllers;
+[Route("/AdminManager/api/[controller]")]
 [ApiController]
 public class ProductInventoryController : ControllerBase
 {
@@ -19,6 +18,7 @@ public class ProductInventoryController : ControllerBase
     [HttpPost("AddProductInventory")]
     public bool AddProductInventory(ProductInventory ProInven)
     {
+        ProInven.DayInventory = DateOnly.FromDateTime(DateTime.Now);
         var check = _productInventoryService.InventoryProCode(ProInven);
         return check;
     }

@@ -247,6 +247,85 @@ public class OrderDao : OrderService
             return [];
         }
     }
+    public Order GetOrderid(string id)
+    {
+        try
+        {
+            var order = (from p in _context.Orders
+                         where p.OrderId == id
+                         select new Order
+                         {
+                             OrderId = p.OrderId,
+                             CustomerId = p.CustomerId,
+                             OrderDate = p.OrderDate,
+                             DeliveryTypeId = p.DeliveryTypeId,
+                             PaymentMethodId = p.PaymentMethodId,
+                             IsPaid = p.IsPaid,
+                             ProductId = p.ProductId,
+                             ProductCode = p.ProductCode,
+                             EmployeeId = p.EmployeeId,
+                             Status = p.Status,
+                             TotalPaid = p.TotalPaid,
+                             Customer = (from pi in _context.Customers
+                                         where pi.CustomerId == p.CustomerId // Sửa đổi điều kiện lấy khách hàng dựa trên ID của khách hàng
+                                         select pi).FirstOrDefault(),
+                             DeliveryType = (from pi in _context.DeliveryTypes
+                                             where pi.DeliveryTypeId == p.DeliveryTypeId // Sửa đổi điều kiện lấy loại giao hàng dựa trên ID loại giao hàng
+                                             select pi).FirstOrDefault(),
+                             PaymentMethod = (from pi in _context.PaymentMethods
+                                              where pi.PaymentMethodId == p.PaymentMethodId // Sửa đổi điều kiện lấy phương thức thanh toán dựa trên ID phương thức thanh toán
+                                              select pi).FirstOrDefault(),
+                             ProductCodeNavigation = (from pi in _context.ProductCodes
+                                                      where pi.ProductId == p.ProductId // Sửa đổi điều kiện lấy mã sản phẩm dựa trên ID sản phẩm
+                                                      select pi).FirstOrDefault()
+                         }).FirstOrDefault();
 
+            return order;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    public List<Order> GetOrder()
+    {
+        try
+        {
+            var or = (from p in _context.Orders
+                         select new Order
+                         {
+                             OrderId = p.OrderId,
+                             CustomerId = p.CustomerId,
+                             OrderDate = p.OrderDate,
+                             DeliveryTypeId = p.DeliveryTypeId,
+                             PaymentMethodId = p.PaymentMethodId,
+                             IsPaid = p.IsPaid,
+                             ProductId = p.ProductId,
+                             ProductCode = p.ProductCode,
+                             EmployeeId = p.EmployeeId,
+                             Status = p.Status,
+                             TotalPaid = p.TotalPaid,
+                             Customer = (from pi in _context.Customers
+                                         where pi.CustomerName == pi.CustomerName
+                                         select pi).FirstOrDefault(),
+                             DeliveryType = (from pi in _context.DeliveryTypes
+                                             where pi.TypeName == pi.TypeName
+                                         select pi).FirstOrDefault(),
+                             PaymentMethod = (from pi in _context.PaymentMethods
+                                              where pi.PaymentMethodName == pi.PaymentMethodName
+                                              select pi).FirstOrDefault(),
+                             ProductCodeNavigation = (from pi in _context.ProductCodes
+                                                      where pi.ProductNum == pi.ProductNum
+                                                      select pi).FirstOrDefault()
+                         }).ToList();
+
+            return or;
+        }
+        catch (Exception)
+        {
+            return [];
+        }
+    }
 
 }

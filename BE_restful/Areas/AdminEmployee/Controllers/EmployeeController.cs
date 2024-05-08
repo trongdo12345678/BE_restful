@@ -7,8 +7,7 @@ using Konscious.Security.Cryptography;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BE_restful.Areas.AdminEmployee.Controllers;
-[Route("api/[controller]")]
-[Area("Admin")]
+[Route("/AdminEmployee/api/[controller]")]
 [ApiController]
 public class EmployeeController : ControllerBase
 {
@@ -17,8 +16,7 @@ public class EmployeeController : ControllerBase
     {
         _employeeService = employeeService;
     }
-    //[Route("/Admin/api/depmgr/deps")]
-    [HttpGet]
+    [HttpGet("GetEmloy")]
     public IActionResult GetEmloy()
     {
         var check = _employeeService.GetEmloy();
@@ -33,7 +31,6 @@ public class EmployeeController : ControllerBase
         var checkAdd = _employeeService.AddEmloy(employee);
         return checkAdd;
     }
-    //[Route("/Admin/api/depmgr/deps/{id}")]
     [HttpDelete]
     public IActionResult DeleteEmloy(int id)
     {

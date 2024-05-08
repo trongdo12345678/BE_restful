@@ -153,7 +153,7 @@ public class ProductInventoryDao : ProductInventoryService
                                           Quantity = pi.Quantity,
                                           DayInventory = pi.DayInventory,
                                           Product = (from p in _context.Products
-                                                     where p.ProductId == pi.ProductId
+                                                     where p.ProductName == p.ProductName
                                                      select p).FirstOrDefault()
                                       }).ToList();
 

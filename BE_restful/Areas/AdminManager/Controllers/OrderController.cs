@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BE_restful.Areas.AdminManager.Controllers;
-[Route("api/[controller]")]
-[Area("admin")]
+[Route("/AdminManager/api/[controller]")]
 [ApiController]
 public class OrderController : ControllerBase
 {
@@ -23,7 +22,7 @@ public class OrderController : ControllerBase
     //    return check;
     //}
     //[Route("/Admin/api/depmgr/deps")]
-    [HttpPost]
+    [HttpPost("UsersSend")]
     public bool UsersSend(Orders ords)
     {
         var checl = _orderService.UserSendOrder(ords);
@@ -60,4 +59,24 @@ public class OrderController : ControllerBase
         var check = _orderService.GetFeedback();
         return Ok(check);
     }
+    [HttpGet("GetOrder")]
+    public IActionResult GetOrder()
+    {
+        var check = _orderService.GetOrder();
+        return Ok(check);
+    }
+    [HttpGet("GetOrderById/{id}")]
+    public IActionResult GetOrderById(string id)
+    {
+        var order = _orderService.GetOrderid(id);
+        if (order != null)
+        {
+            return Ok(order);
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
+
 }

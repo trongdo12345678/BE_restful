@@ -11,4 +11,6 @@ public interface OrderService
     public bool AccomplishedOrder(string orderID, string productCode);
     public bool AddFeedback(string orderId, string feedbackMessage);
     public List<Feedback> GetFeedback();
+    public List<Order> GetOrder();
+    public Order GetOrderid(string id);
 }
